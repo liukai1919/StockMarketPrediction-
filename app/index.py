@@ -1,6 +1,7 @@
 from datetime import datetime
 import streamlit as st
 import pandas as pd
+import torch
 import yfinance as yf
 import joblib
 from transformers import pipeline
@@ -9,7 +10,14 @@ import sys
 
 
 # Load the models
-model_sentiment = pipeline("text-classification", model="mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis", device=0)
+#check if there is a GPU
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+elif torch.backends.mps.is_available():
+    device = torch.device("mps")
+else:
+    device = torch.device("cpu")
+model_sentiment = pipeline("text-classification", model="mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis", device=device)
 model_trend = joblib.load('models/AAPL_trend_seasonal_residual_data_sentiment_model.pkl')
 model_multiple = joblib.load('models/AAPL_multiple_parameter_model.pkl')
 
@@ -120,8 +128,6 @@ if st.button('Predict'):
 
     prediction = predict(last_row)
     change = prediction[0] - last_row['Close']
-    print(type(change))
-    print(change)
     st.write(f'The predicted stock price in {stock_selected} is **{prediction[0]:.2f}** with a change of **{change:.2f}**')
 
 # Add a horizontal line at the end
