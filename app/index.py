@@ -21,8 +21,8 @@ else:
 current_path = os.getcwd()
 print(f"当前路径是: {current_path}")
 model_sentiment = pipeline("text-classification", model="mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis", device=device)
-model_trend = joblib.load('/app/AAPL_trend_seasonal_residual_data_sentiment_model.pkl')
-model_multiple = joblib.load('/app/AAPL_multiple_parameter_model.pkl')
+model_trend = joblib.load('./app/AAPL_trend_seasonal_residual_data_sentiment_model.pkl')
+model_multiple = joblib.load('./app/AAPL_multiple_parameter_model.pkl')
 
 # Set the title
 st.title('Stock Market Prediction')
