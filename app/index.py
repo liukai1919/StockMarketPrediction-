@@ -94,7 +94,7 @@ def load_data(stock_selected):
         sentiment = model_sentiment(news_content)
         weight = 1 if sentiment[0]['label'] == 'positive' else -1 if sentiment[0]['label'] == 'negative' else 0
         last_row['weighted_score'] = sentiment[0]['score'] * weight
-        last_row['Label'] = sentiment[0]['label']
+        last_row.loc[:, 'Label'] = sentiment[0]['label']
        
     else:
         df['EMA'] = df['Close'].ewm(span=10, adjust=False).mean()
