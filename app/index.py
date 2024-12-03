@@ -7,7 +7,6 @@ import joblib
 from transformers import pipeline
 from statsmodels.tsa.seasonal import STL
 import sys
-import os
 
 
 # Load the models
@@ -18,8 +17,6 @@ elif torch.backends.mps.is_available():
     device = torch.device("mps")
 else:
     device = torch.device("cpu")
-current_path = os.getcwd()
-print(f"当前路径是: {current_path}")
 model_sentiment = pipeline("text-classification", model="mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis", device=device)
 model_trend = joblib.load('./app/AAPL_trend_seasonal_residual_data_sentiment_model.pkl')
 model_multiple = joblib.load('./app/AAPL_multiple_parameter_model.pkl')
@@ -86,7 +83,7 @@ def load_data(stock_selected):
     today = datetime.now().strftime("%Y-%m-%d")
     df = yf.download(stock_selected, start="2020-01-01", end=today)[['Close']]
     if news_content:
-        data = df[['Close']].asfreq('D').interpolate()
+        data = df['Close'].dropna()  # Remove NaN values
         sd = STL(data, period=7).fit()
         trend = pd.Series(sd.trend).dropna()
         seasonal = pd.Series(sd.seasonal).dropna()
@@ -109,7 +106,6 @@ def load_data(stock_selected):
                 df[f'{feature}_lag_{lag}'] = df[feature].shift(lag)
         df.dropna(inplace=True)
         features = [col for col in df.columns if col not in ['target', 'Date']]
-        print(features)
         X = df[features]
         last_row = X.iloc[-1]
     return last_row
