@@ -18,8 +18,8 @@ elif torch.backends.mps.is_available():
 else:
     device = torch.device("cpu")
 model_sentiment = pipeline("text-classification", model="mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis", device=device)
-model_trend = joblib.load('models/AAPL_trend_seasonal_residual_data_sentiment_model.pkl')
-model_multiple = joblib.load('models/AAPL_multiple_parameter_model.pkl')
+model_trend = joblib.load('AAPL_trend_seasonal_residual_data_sentiment_model.pkl')
+model_multiple = joblib.load('AAPL_multiple_parameter_model.pkl')
 
 # Set the title
 st.title('Stock Market Prediction')
