@@ -1,4 +1,9 @@
-# StockMarketPrediction
+# Stock Market Prediction
+
+## Introduction
+This project is a stock market prediction system that uses machine learning to predict the future price of a stock. It is a web application that allows users to input a stock symbol and get a prediction of the future price of the stock.
+
+Follow the steps below to run the project:
 
 ## 1. Data Preparation
 
@@ -15,9 +20,23 @@
 ## 2. Setting Up the Environment
 
 ### 2.1 Install Required Packages
-```bash
-pip install -r requirements.txt
-```
+- Create a new environment:
+  ```bash
+  conda create -n stockmarket python=3.11
+  ```
+- Activate the environment:
+  ```bash
+  conda activate stockmarket
+  ```
+- Install the required packages:
+  ```bash
+  pip install -r requirements.txt
+  ```
+- Create a `.env` file and add the following:
+  ```plaintext
+  API_KEY_NEWS=your_api_key_here
+  ```
+- To apply the API key, you can find it [here](https://rapidapi.com/apidojo/api/seeking-alpha/playground/apiendpoint_130e4a68-2511-46d0-8ada-25582c1ebb78).
 
 ## 3. Run the EDA Notebook
 - Execute the EDA notebook to calculate the sentiment score and merge it with the stock data.
@@ -48,3 +67,9 @@ pip install -r requirements.txt
 ├── README.md
 └── requirements.txt
 ```
+
+## 6. Run the Web App
+- Start the web app:
+  ```bash
+  streamlit run app/index.py
+  ```
